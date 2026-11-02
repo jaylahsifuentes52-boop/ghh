@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouWatch — Your video space</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-icon">▶</span><span>You<span class="accent">Watch</span></span></a>
+    <div class="top-actions">
+      <button class="soft-button" id="addYoutubeTop">＋ Add YouTube</button>
+      <button class="upload-button" id="uploadTop">＋ Upload video</button>
+      <input id="videoFile" type="file" accept="video/*" hidden>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
+      <button class="nav-item" data-view="library"><span>▣</span> Your library</button>
+      <div class="side-line"></div>
+      <p class="side-label">YOUR SPACE</p>
+      <div class="side-note">Add a YouTube link or upload a video from your device to start watching.</div>
+      <div class="sidebar-bottom">Made for your videos <span>✦</span></div>
+    </aside>
+
+    <section class="content">
+      <section class="welcome">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL VIDEO HUB</p>
+          <h1>What do you want to <span>watch?</span></h1>
+          <p class="welcome-sub">Bring your videos together in one place.</p>
+        </div>
+        <div class="welcome-mark">▶</div>
+      </section>
+
+      <section class="quick-actions">
+        <button class="action-card" id="addYoutubeCard">
+          <span class="action-icon youtube">▶</span>
+          <span><strong>Import YouTube</strong><small>Paste a video link</small></span>
+          <b>↗</b>
+        </button>
+        <button class="action-card" id="uploadCard">
+          <span class="action-icon upload">↑</span>
+          <span><strong>Make your own video</strong><small>Upload a video file</small></span>
+          <b>↗</b>
+        </button>
+      </section>
+
+      <div class="section-heading">
+        <div><p class="eyebrow">YOUR COLLECTION</p><h2 id="collectionTitle">Your videos</h2></div>
+        <span class="video-count" id="videoCount">0 videos</span>
+      </div>
+
+      <div class="video-grid" id="videoGrid">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">▷</div>
+          <h3>Your watchlist starts here</h3>
+          <p>Import a YouTube video or upload one from your device.</p>
+          <button class="upload-button" id="emptyAdd">Add your first video</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="youtubeModal" hidden>
+    <div class="modal">
+      <button class="close-modal" data-close aria-label="Close">×</button>
+      <div class="modal-symbol">▶</div>
+      <p class="eyebrow">ADD TO YOUWATCH</p>
+      <h2>Import a YouTube video</h2>
+      <p class="modal-copy">Paste a YouTube video URL below. YouWatch will add it to your collection.</p>
+      <form id="youtubeForm">
+        <label for="youtubeUrl">YouTube link</label>
+        <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." required>
+        <label for="youtubeTitle">Video name <span>(optional)</span></label>
+        <input id="youtubeTitle" type="text" placeholder="Give it a name">
+        <p class="form-error" id="formError"></p>
+        <button class="upload-button full-button" type="submit">Add video</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
