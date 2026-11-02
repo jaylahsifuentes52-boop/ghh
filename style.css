@@ -117,3 +117,5 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #bba5
 .comment-item{position:relative}
 .comment-form input:focus{outline:0;border-color:#a78bfa;box-shadow:0 0 0 3px #8b5cf622}
 @media(max-width:600px){.community-video{padding:10px}.community-video h3{font-size:14px}.social-author{align-items:flex-start}.comment-form input{font-size:11px}}
+
+.thumbnail-help{display:block;color:#8993a8;font-size:11px;margin:-2px 0 10px;line-height:1.5}#cloudThumbnail{padding:10px;background:#0d111c;border:1px dashed #ffffff30}
