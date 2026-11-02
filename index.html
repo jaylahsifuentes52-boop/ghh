@@ -11,6 +11,9 @@
     <a class="brand" href="#"><span class="brand-icon">▶</span><span>You<span class="accent">Watch</span></span></a>
     <div class="top-actions">
       <button class="soft-button" id="addYoutubeTop">＋ Add YouTube</button>
+      <button class="soft-button" id="loginBtn">Log in</button>
+      <button class="soft-button" id="signupBtn">Sign up</button>
+      <button class="soft-button" id="logoutBtn" hidden>Log out</button>
       <button class="upload-button" id="uploadTop">＋ Upload video</button>
       <input id="videoFile" type="file" accept="video/*" hidden>
     </div>
@@ -83,7 +86,34 @@
     </div>
   </div>
 
+  <div class="modal-backdrop" id="authModal" hidden>
+    <div class="modal">
+      <button class="close-modal" data-auth-close aria-label="Close">×</button>
+      <div class="modal-symbol">◎</div><p class="eyebrow">YOUR YOUWATCH ACCOUNT</p>
+      <h2 id="authHeading">Create your account</h2>
+      <form id="authForm">
+        <label id="usernameLabel">Username</label><input id="authUsername" maxlength="24" placeholder="Choose a username">
+        <label>Email</label><input id="authEmail" type="email" required placeholder="you@example.com">
+        <label>Password</label><input id="authPassword" type="password" required minlength="6" placeholder="At least 6 characters">
+        <p class="form-error" id="authError"></p><button class="upload-button full-button" id="authSubmit">Create account</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="cloudUploadModal" hidden>
+    <div class="modal">
+      <button class="close-modal" data-upload-close aria-label="Close">×</button>
+      <div class="modal-symbol">↑</div><p class="eyebrow">SHARE WITH THE COMMUNITY</p><h2>Upload a video</h2>
+      <form id="cloudUploadForm">
+        <label>Video title</label><input id="cloudTitle" required maxlength="90" placeholder="Give your video a title">
+        <label>Description</label><input id="cloudDescription" maxlength="400" placeholder="What is your video about?">
+        <label>Video file (MP4, WebM, or MOV; max 50 MB)</label><input id="cloudFile" type="file" accept="video/mp4,video/webm,video/quicktime" required>
+        <p class="form-error" id="cloudUploadError"></p><button class="upload-button full-button" id="cloudUploadSubmit">Upload to YouWatch</button>
+      </form>
+    </div>
+  </div>
   <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
