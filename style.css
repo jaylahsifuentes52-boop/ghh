@@ -119,3 +119,38 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #bba5
 @media(max-width:600px){.community-video{padding:10px}.community-video h3{font-size:14px}.social-author{align-items:flex-start}.comment-form input{font-size:11px}}
 
 .thumbnail-help{display:block;color:#8993a8;font-size:11px;margin:-2px 0 10px;line-height:1.5}#cloudThumbnail{padding:10px;background:#0d111c;border:1px dashed #ffffff30}
+
+
+/* YouWatch neon studio refresh */
+:root{--glow:rgba(139,92,246,.28)}
+body{background-color:#070912;background-image:radial-gradient(ellipse at 12% 8%,#6739bd35,transparent 34%),radial-gradient(ellipse at 88% 42%,#0c9da02a,transparent 30%),linear-gradient(180deg,#090b15,#070912 65%)}
+.topbar{border-bottom:1px solid #a78bfa25;box-shadow:0 8px 35px #0004}
+.brand-icon{background:linear-gradient(135deg,#b36bff,#685cff 55%,#36cfc9);box-shadow:0 0 28px #8b5cf666}
+.brand .accent{background:linear-gradient(90deg,#c4a7ff,#65e9e0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.welcome{border:1px solid #b99cff30;background:linear-gradient(115deg,#29194c 0%,#191c3b 52%,#10383e 100%);box-shadow:0 22px 65px #0005,0 0 45px #8b5cf61a;isolation:isolate}
+.welcome:after{width:360px;height:360px;right:2%;top:-210px;background:#a78bfa30;filter:blur(12px);z-index:-1}
+.welcome-mark{border:1px solid #ffffff30;background:linear-gradient(145deg,#ffffff25,#ffffff08);box-shadow:0 0 35px #9b7bfa40,0 15px 45px #0005}
+.action-card{border-color:#ffffff1b;box-shadow:0 12px 32px #0004,inset 0 1px #ffffff08}
+.action-card:nth-child(1) .action-icon{box-shadow:0 0 25px #ff475322}
+.action-card:nth-child(2) .action-icon{box-shadow:0 0 25px #46d9d022}
+.action-card:hover{border-color:#b79affaa;box-shadow:0 18px 38px #0006,0 0 25px #8b5cf622}
+.upload-button{background:linear-gradient(110deg,#9a5cff,#665df4 58%,#32bfc5);box-shadow:0 8px 25px #7955ed55}
+.upload-button:hover{box-shadow:0 10px 32px #7955ed88}
+.soft-button:hover{border-color:#a78bfa77;box-shadow:0 0 18px #8b5cf622}
+.section-heading h2{letter-spacing:-.7px}
+.video-card,.community-video{backdrop-filter:blur(12px);border-color:#ffffff20;box-shadow:0 15px 38px #0005}
+.video-card:hover,.community-video:hover{border-color:#b99cff99;box-shadow:0 20px 45px #0007,0 0 28px #8b5cf61c}
+.community-video video{outline:1px solid #ffffff12;box-shadow:0 8px 22px #0005}
+.video-search{transition:border-color .2s,box-shadow .2s,transform .2s}
+.video-search:focus{transform:translateY(-1px)}
+.modal{border-color:#b99cff40;box-shadow:0 28px 90px #000c,0 0 40px #8b5cf622}
+.modal-symbol{background:linear-gradient(135deg,#8b5cf644,#46d9d022);box-shadow:inset 0 0 18px #ffffff0b}
+#cloudThumbnail{border:1px dashed #a78bfa77;background:linear-gradient(120deg,#17152b,#101b27);cursor:pointer}
+.thumbnail-help{color:#a8b2c8}
+.social-area{background:linear-gradient(180deg,#ffffff05,transparent);border-radius:12px;padding:12px 10px 8px}
+.follow-btn{border-radius:999px!important;padding:8px 13px!important;background:linear-gradient(110deg,#8b5cf6,#5865ed)!important;color:white!important;border:0!important}
+.comment-form input{border:1px solid #ffffff20;border-radius:10px;background:#0b1020;color:white;padding:10px 12px}
+.comment-form button{border:0;border-radius:10px;background:#27334d;color:#e8eaff;padding:9px 12px}
+.comment-item{padding:9px 10px;border-radius:10px;background:#ffffff06;margin-top:7px}
+@media(prefers-reduced-motion:no-preference){.brand-icon{animation:brandGlow 4s ease-in-out infinite alternate}@keyframes brandGlow{from{filter:saturate(1)}to{filter:saturate(1.4) brightness(1.12)}}}
+@media(max-width:600px){.welcome{box-shadow:0 14px 38px #0005}.community-video:hover,.video-card:hover{transform:none}}
