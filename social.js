@@ -32,7 +32,8 @@
     await loadMe();
     document.querySelectorAll(".community-video").forEach(card=>{
       if(card.dataset.socialReady==="1") return;
-      const videoId=card.dataset.videoId, ownerId=card.dataset.ownerId;
+      const matchedVideo=(typeof communityVideos!=="undefined"?communityVideos:[]).find(v=>v.title===(card.querySelector("h3")?.textContent||"Untitled video"));
+      const videoId=card.dataset.videoId || matchedVideo?.id, ownerId=card.dataset.ownerId || matchedVideo?.user_id;
       if(!videoId) return;
       card.dataset.socialReady="1";
       const author=card.querySelector(".video-uploader");
@@ -66,7 +67,7 @@
         follow.textContent=count?"✓ Subscribed":"＋ Subscribe";follow.classList.toggle("following",!!count);
       });
       async function refreshComments(){
-        const {data,error}=await db.from("video_comments").select("id,username,content,created_at").eq("video_id",videoId).order("created_at",{ascending:true}).limit(30);
+        const {data,error}=await db.from("video_comments").select("id,user_id,username,content,created_at").eq("video_id",videoId).order("created_at",{ascending:true}).limit(30);
         if(error){comments.innerHTML='<span class="social-hint">Comments will work after the Supabase social setup.</span>';return;}
         comments.innerHTML="";
         if(!data?.length){comments.innerHTML='<span class="social-hint">No comments yet. Start the conversation!</span>';return;}
