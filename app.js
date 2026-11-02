@@ -32,7 +32,7 @@ async function loadCommunityVideos(){
   const grid=byId("communityGrid");
   if(!grid) return;
   message("communityStatus","Loading videos...");
-  const {data,error}=await db.from("videos").select("id,title,description,storage_path,user_id,uploader_name,created_at").order("created_at",{ascending:false}).limit(60);
+  const {data,error}=await db.from("videos").select("id,title,description,storage_path,thumbnail_path,user_id,uploader_name,created_at").order("created_at",{ascending:false}).limit(60);
   if(error){grid.textContent="Couldn't load videos: "+error.message;message("communityStatus","Unavailable");return;}
   communityVideos=data||[];
   renderCommunityVideos();
@@ -47,8 +47,9 @@ function renderCommunityVideos(){
   if(!filtered.length){grid.innerHTML='<div class="empty-state"><h3>No community videos yet</h3><p>Be the first to share a video.</p></div>';message("communityStatus",term?"No matches":"0 videos");return;}
   for(const video of filtered){
     const publicUrl=db.storage.from("videos").getPublicUrl(video.storage_path).data.publicUrl;
-    const card=document.createElement("article");card.className="community-video";
+    const card=document.createElement("article");card.className="community-video";card.dataset.videoId=video.id;card.dataset.ownerId=video.user_id;
     const player=document.createElement("video");player.controls=true;player.playsInline=true;player.preload="metadata";player.src=publicUrl;
+    if(video.thumbnail_path){player.poster=db.storage.from("videos").getPublicUrl(video.thumbnail_path).data.publicUrl;}
     const title=document.createElement("h3");title.textContent=video.title||"Untitled video";
     const description=document.createElement("p");description.textContent=video.description||"";
     const uploader=document.createElement("p");uploader.className="video-uploader";uploader.textContent="Uploaded by "+(video.uploader_name||"YouWatch user");
@@ -100,19 +101,24 @@ async function handleCloudUpload(event){
   message("cloudUploadError","");
   if(!currentUser){byId("cloudUploadModal").hidden=true;showAuth("login");return;}
   const file=byId("cloudFile").files[0];
+  const thumbnail=byId("cloudThumbnail")?.files?.[0]||null;
   const title=byId("cloudTitle").value.trim();
   const description=byId("cloudDescription").value.trim();
   if(!file){message("cloudUploadError","Choose a video file.");return;}
   if(!["video/mp4","video/webm","video/quicktime"].includes(file.type)){message("cloudUploadError","Please choose an MP4, WebM, or MOV video.");return;}
   if(file.size>50*1024*1024){message("cloudUploadError","This file is over the 50 MB limit.");return;}
+  if(thumbnail && !["image/jpeg","image/png","image/webp"].includes(thumbnail.type)){message("cloudUploadError","Thumbnail must be JPG, PNG, or WebP.");return;}
+  if(thumbnail && thumbnail.size>5*1024*1024){message("cloudUploadError","Thumbnail must be under 5 MB.");return;}
   byId("cloudUploadSubmit").disabled=true;byId("cloudUploadSubmit").textContent="Uploading...";
   const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
   const path=currentUser.id+"/"+Date.now()+"-"+safeName;
   try{
     const {error:uploadError}=await db.storage.from("videos").upload(path,file,{contentType:file.type,upsert:false});
     if(uploadError) throw uploadError;
-    const {error:insertError}=await db.from("videos").insert({user_id:currentUser.id,title,description,storage_path:path,uploader_name:currentUser.user_metadata?.username||currentUser.email?.split("@")[0]||"YouWatch user"});
-    if(insertError){await db.storage.from("videos").remove([path]);throw insertError;}
+    let thumbnailPath=null;
+    if(thumbnail){thumbnailPath=currentUser.id+"/thumbnails/"+Date.now()+"-"+thumbnail.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error:thumbError}=await db.storage.from("videos").upload(thumbnailPath,thumbnail,{contentType:thumbnail.type,upsert:false});if(thumbError){await db.storage.from("videos").remove([path]);throw thumbError;}}
+    const {error:insertError}=await db.from("videos").insert({user_id:currentUser.id,title,description,storage_path:path,thumbnail_path:thumbnailPath,uploader_name:currentUser.user_metadata?.display_name||currentUser.user_metadata?.username||currentUser.email?.split("@")[0]||"YouWatch user"});
+    if(insertError){await db.storage.from("videos").remove([path,...(thumbnailPath?[thumbnailPath]:[])]);throw insertError;}
     byId("cloudUploadModal").hidden=true;byId("cloudUploadForm").reset();notify("Your video is now public on YouWatch!");
     await loadCommunityVideos();
   }catch(error){message("cloudUploadError",error.message||"Upload failed.");}
