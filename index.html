@@ -113,6 +113,8 @@
         <label>Video title</label><input id="cloudTitle" required maxlength="90" placeholder="Give your video a title">
         <label>Description</label><input id="cloudDescription" maxlength="400" placeholder="What is your video about?">
         <label>Video file (MP4, WebM, or MOV; max 50 MB)</label><input id="cloudFile" type="file" accept="video/mp4,video/webm,video/quicktime" required>
+        <label>Thumbnail image (optional: JPG, PNG, or WebP; max 5 MB)</label><input id="cloudThumbnail" type="file" accept="image/jpeg,image/png,image/webp">
+        <small class="thumbnail-help">Choose a picture that will appear on your video before someone presses play.</small>
         <p class="form-error" id="cloudUploadError"></p><button class="upload-button full-button" id="cloudUploadSubmit">Upload to YouWatch</button>
       </form>
     </div>
