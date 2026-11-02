@@ -73,12 +73,53 @@ function render() {
 }
 function watchVideo(video) {
   if (video.type === 'youtube') {
-    window.open(`https://www.youtube.com/watch?v=${video.videoId}`, '_blank', 'noopener');
+    const player = document.createElement('div');
+
+    player.innerHTML = `
+      <iframe
+        width="100%"
+        height="500"
+        src="https://www.youtube-nocookie.com/embed/${video.videoId}?autoplay=1"
+        title="YouWatch Player"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    `;
+
+    const win = window.open('', '_blank');
+
+    win.document.write(`
+      <html>
+      <head>
+        <title>YouWatch Player</title>
+        <style>
+          body {
+            background: #090b14;
+            color: white;
+            font-family: Arial;
+            padding: 20px;
+          }
+          iframe {
+            border: none;
+            border-radius: 15px;
+          }
+        </style>
+      </head>
+      <body>
+        <h2>YouWatch Player</h2>
+        ${player.innerHTML}
+      </body>
+      </html>
+    `);
   } else {
     const win = window.open('', '_blank');
-    if (!win) { showToast('Allow pop-ups to open your video.'); return; }
-    const safeTitle = video.title.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    win.document.write(`<!doctype html><html><head><title>${safeTitle}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#080a10;color:white;font:16px Arial;display:grid;place-items:center;min-height:100vh}main{width:min(100%,1100px);padding:20px}video{width:100%;max-height:80vh;background:#000;border-radius:12px}h2{font-size:18px}</style></head><body><main><h2>${safeTitle}</h2><video controls autoplay src="${video.url}"></video></main></body></html>`);
+
+    win.document.write(`
+      <video controls autoplay style="width:100%">
+        <source src="${video.url}">
+      </video>
+    `);
   }
 }
 function uploadFile(file) {
